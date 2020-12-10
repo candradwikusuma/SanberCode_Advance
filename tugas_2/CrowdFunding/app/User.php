@@ -12,6 +12,17 @@ class User extends Authenticatable
 {
     use Notifiable ,UsesUuid;
 
+    protected function get_user_role_id(){
+        $role= Role::where('name','user')->first();
+        return $role->id;
+    }
+
+    protected static function boot(){
+        parent::boot();
+        static::creating(function($model){
+            $model->role_id=$model->get_user_role_id();
+        });
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -45,5 +56,14 @@ class User extends Authenticatable
     public function otpCode()
     {
         return $this->hasOne(OtpCode::class);
+    }
+
+    public function isAdmin(){
+        if ($this->role_id === $this->get_user_role_id()) {
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
