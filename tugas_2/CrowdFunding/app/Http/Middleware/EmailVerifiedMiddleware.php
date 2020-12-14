@@ -17,7 +17,7 @@ class EmailVerifiedMiddleware
     {
         $user=Auth()->user();
 
-        if($user->email_verified_at != null){
+        if($user->email_verified_at != null && $user->password != null){
             return $next($request);
 
         }

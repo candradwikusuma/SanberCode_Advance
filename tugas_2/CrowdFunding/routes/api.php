@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth','middleware'=>'api','namespace'=>'Auth'], function () {
+    Route::post('register', 'RegisterController');
+    Route::post('regenerate','RegenerateOtpController');
+    Route::post('verification','VerificationController');
+    Route::post('update-password','UpdatePasswordController');
+    Route::post('login','LoginController');
+});
+
+Route::group([
+    'middleware' => ['api','email_verified','auth:api'],
+   
+], 
+    function () {
+    Route::get('profile/show', 'ProfileController@show');
+    Route::post('profile/update', 'ProfileController@update');
 });

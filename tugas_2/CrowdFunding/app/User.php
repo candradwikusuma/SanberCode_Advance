@@ -6,9 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use App\Traits\UsesUuid;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable ,UsesUuid;
 
@@ -22,7 +24,12 @@ class User extends Authenticatable
         static::creating(function($model){
             $model->role_id=$model->get_user_role_id();
         });
+
+        static::created(function($model){
+            $model->otp_generate();
+        });
     }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -65,5 +72,34 @@ class User extends Authenticatable
         else{
             return true;
         }
+    }
+    public function otp_generate(){
+        do {
+            $acak=mt_rand(100000,1000000);
+            $cek_otp=OtpCode::where('otp',$acak)->first();
+        } while ($cek_otp);
+        
+        $now=Carbon::now();
+
+        //ini untuk menambah otp 
+        $otp=OtpCode::updateOrCreate(
+            ['user_id'=>$this->id],
+            ['otp'=>$acak,'expired_date'=>$now->addMinutes(5)],
+            
+        );
+    }
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
