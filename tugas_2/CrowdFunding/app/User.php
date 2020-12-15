@@ -62,7 +62,7 @@ class User extends Authenticatable implements JWTSubject
     }
     public function otpCode()
     {
-        return $this->hasOne(OtpCode::class);
+        return $this->hasOne(OtpCode::class,'user_id','id');
     }
 
     public function isAdmin(){
