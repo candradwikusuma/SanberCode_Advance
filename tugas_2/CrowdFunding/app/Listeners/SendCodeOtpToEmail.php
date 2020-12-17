@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Mail\CodeOtpMail;
 use Mail;
 
-class SendCodeOtpToEmail
+class SendCodeOtpToEmail implements ShouldQueue
 {
     /**
      * Create the event listener.
