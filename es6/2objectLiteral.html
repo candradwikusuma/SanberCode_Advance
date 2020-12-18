@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>object Literal</title>
+</head>
+<script>
+    const newFunction = function literal(firstName, lastName){
+        return {
+          firstName,
+          lastName,
+          fullName: ()=>{
+            console.log(`${firstName} ${lastName}`);
+            return 
+          }
+        }
+      }
+       
+      //Driver Code 
+      newFunction("William", "Imoh").fullName() 
+</script>
+<body>
+    
+</body>
+</html>
