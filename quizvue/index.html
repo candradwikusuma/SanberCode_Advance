@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crud vue</title>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <input type="text" v-model="list.name">
+            <button v-show="!updateButtonSubmit" @click.prevent="add" >add</button>
+            <button v-show="updateButtonSubmit" @click.prevent="update">update</button>
+        </form>
+        <ul v-for="(user,index) in users">
+            <li>
+                <span>{{user.name}}</span>
+                <button @click="edit(user,index)">Edit</button> || <button @click="trash(index)">Delete</button>
+            </li>
+        </ul>
+
+    </div>
+    <script src="vue.js" charset="utf-8"></script>
+    <script src="script.js" charset="utf-8"></script>
+</body>
+</html>
