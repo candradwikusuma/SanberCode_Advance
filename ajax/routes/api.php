@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('list','ListController@index');
+Route::post('list','ListController@store');
+Route::post('list/update/{id}','ListController@update');
+Route::post('list/delete/{id}','ListController@delete');
